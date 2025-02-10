@@ -1,3 +1,5 @@
+package Laboration2;
+
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.Consumer;
@@ -9,29 +11,26 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 		Collection<E>, List<E>, RandomAccess {
 
 		private int size;
-		private E[] elements;
+		private E[] array;
 
     	// ---------------------------------------------------------------
 
 	public static void main(String[] args) {
-		MyArrayList<String> strlist = new MyArrayList<String>();
-		
-		// testa metoder härifrån
-		
+		MyArrayList<String> testing = new MyArrayList<String>();
 	}
 
     	// ---------------------------------------------------------------
     
 	public MyArrayList(int initialCapacity) {
-
-		 Object[] elements = new Object[initialCapacity];
-		 this.size = 0;
-		 this.elements = (E[]) array();
-
+		if (initialCapacity < 0) {
+			throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
+		} else {
+			array = (E[]) new Object[initialCapacity];
+		}
 	}
 
 	public MyArrayList() {
-
+		array = (E[]) new Object[10];
 	}
 
 	//En metod som kollar ifall man är inom index.
@@ -59,7 +58,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	@Override
 	public void clear() {
 		for (int i = 0; i < this.size(); i++) {
-			this.elements[i] = null;
+			this.array[i] = null;
 			this.size = 0;
 		}
 	}
@@ -67,23 +66,23 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	// -- 2 --
 
 	public void ensureCapacity(int minCapacity) {
-		if (minCapacity > elements.length){
-			Object[] temp = new Object[elements.length * 2];
+		if (minCapacity > array.length){
+			Object[] temp = new Object[array.length * 2];
 
-		for(int i = 0; i < this.elements.length; i++){
-			temp[i] = elements[i];
+		for(int i = 0; i < this.array.length; i++){
+			temp[i] = array[i];
 			}
-			this.elements = (E[]) temp;
+			this.array = (E[]) temp;
 		}
 	}
 
 	public void trimToSize() {
-		if (this.size < this.elements.length){
+		if (this.size < this.array.length){
 			Object[] temp = new Object[this.size];
 			for(int i = 0; i < this.size; i++){
-				temp[i] = elements[i];
+				temp[i] = array[i];
 			}
-			this.elements = (E[]) temp;
+			this.array = (E[]) temp;
 		}
 	}
     
@@ -210,25 +209,47 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 			}
 		} return false;
 	}
-    
+
+	//Returnerar true ifall listan innehåller det specifika elementet.
 	@Override
 	public boolean contains(Object o) {
-		/* ska implementeras */
-		return false; /* bara med för att Eclipse inte ska klaga */
+		for (int i = 0; i < this.size; i++) {
+			if (o.equals(array[i])){
+				return true;
+			}
+		} return false;
 	}
 
 	// -- 7 --
 
+	/*
+	Ska returnera en "Shallow" kopia av listan. Som jag förstått det innebär detta att
+	man ska skapa en lista som refererar till orginallistan. Man kan säga att det är
+	som alias i python.
+	 */
 	@Override
 	public Object clone() {
-		/* ska implementeras */
-		return null; /* bara med för att Eclipse inte ska klaga */
+		MyArrayList<E> kopia = new MyArrayList<>(size);
+		for (int i = 0; i < this.size; i++) {
+			kopia.array[i] = this.array[i];
+		}
+		kopia.size = this.size;
+		return kopia;
 	}
 
+	/*
+	Ska returnera en array som innehåller alla element i denna lista.
+	Dom behöver även vara i följd (från första till sista)
+	Metoden ska skapa en ny array som användaren fritt kan förändra utan att
+	ändra originalet.
+	 */
 	@Override
 	public Object[] toArray() {
-		/* ska implementeras */
-		return null; /* bara med för att Eclipse inte ska klaga */
+		Object[] newArray = new Object[this.size];
+		for (int i = 0; i < this.size; i++) {
+			newArray[i] = this.array[i];
+		}
+		return newArray;
 	}
 
 	// --- Rör ej nedanstående kod -----------------------------------

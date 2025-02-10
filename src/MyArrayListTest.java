@@ -1,4 +1,4 @@
-package labb2.facit;
+package Laboration2;
 
 /**
  * Håkan Jonsson, LTU
@@ -191,6 +191,17 @@ public class MyArrayListTest {
 
     // -- 7 --
 
+    private static class IntegerBox {
+        int x;
+
+        IntegerBox(int x) {
+            this.x = x;
+        }
+        public boolean equals(IntegerBox box) {
+            return this.x == box.x;
+        }
+    }
+
     public static void testAvClone() {
         System.out.println("Test av clone() startar");
         data = new MyArrayList<Integer>();
@@ -202,7 +213,18 @@ public class MyArrayListTest {
         assert clone.get(2).equals(data.get(2)) : "clone() 3";
 
         clone.set(1, N + 1);
-        assert data.get(1).equals(N + 1) : "clone() 4";
+        assert !data.get(1).equals(N + 1) : "clone() 4";
+        data.set(2, N + 2);
+        assert !clone.get(1).equals(N + 2) : "clone() 5";
+
+        assert data.size() == clone.size() : "clone() 6";
+
+        MyArrayList<IntegerBox> box = new MyArrayList<IntegerBox>();
+        box.add(new IntegerBox(10));
+        MyArrayList<IntegerBox> box2 = (MyArrayList<IntegerBox>) box.clone();
+        assert box.get(0).equals(box2.get(0)) : "clone() 7";
+        box.get(0).x = 30;
+        assert box.get(0).equals(box2.get(0)) : "clone() 8";
 
         System.out.println("Test av clone() OK");
     }
@@ -222,25 +244,28 @@ public class MyArrayListTest {
     }
 
     public static void main(String[] args) {
-        System.out.println("MyArrayListTest Version: 2025-02-03");
+        System.out.println("MyArrayListTest Version: 2025-02-04");
 
-//      Avkommentera nedan de tester du vill genomföra
-//      Innan rättningen/presentationen ska alla tester ge OK
+//      Avkommentera nedan de tester du vill genomföra.
+//      Kom ihåg att aktivera assertions med "-ea" i Eclipse (annars 
+//      fungerar testerna inte.
+//        
+//      Innan rättningen/presentationen ska alla tester ge OK.
 
-//        testAvMyArrayList();
-//        testAvSize();
-//        testAvIsEmpty();
-//        testAvClear();
+        testAvMyArrayList();
+        testAvSize();
+        testAvIsEmpty();
+        testAvClear();
         testAvAddindex();
         testAvAddE();
-//        testAvGetindex();
-//        testAvSetindex();
-//        testAvRemoveindex();
-//        testAvRemoveRange();
-//        testAvIndexOf();
-//        testAvRemoveobject();
-//        testAvContainsobject();
-//        testAvClone();
-//        testAvToArray();
+        testAvGetindex();
+        testAvSetindex();
+        testAvRemoveindex();
+        testAvRemoveRange();
+        testAvIndexOf();
+        testAvRemoveobject();
+        testAvContainsobject();
+        testAvClone();
+        testAvToArray();
     }
 }

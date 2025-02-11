@@ -20,7 +20,20 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	}
 
     	// ---------------------------------------------------------------
-    
+
+
+	public MyArrayList() {
+		array = (E[]) new Object[10];
+	}
+
+	//En metod för att kolla så man är inom index.
+	private void indexCtrl(int index, int value){
+		if (index < 0 || index >= value){
+			throw new IndexOutOfBoundsException();
+		}
+	}
+
+	//
 	public MyArrayList(int initialCapacity) {
 		if (initialCapacity < 0) {
 			throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
@@ -29,32 +42,21 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 		}
 	}
 
-	public MyArrayList() {
-		array = (E[]) new Object[10];
-	}
-
-	//En metod som kollar ifall man är inom index.
-	public void indexCtrl(int index, int value){
-		if (index < 0 || index >= value){
-			throw new IndexOutOfBoundsException();
-		}
-	}
-
 	// -- 1 --
 
+	//Ska returnera storleken på listan.
 	@Override
 	public int size() {
 		return this.size;
 	}
 
+	//Ska returnera true ifall listan ej innehåller något element.
 	@Override
 	public boolean isEmpty() {
-		if (this.size == 0){
-			return true;
-		}
-			return false;
+		 return this.size == 0;
 	}
 
+	//Ska rensa alla element i listan.
 	@Override
 	public void clear() {
 		for (int i = 0; i < this.size(); i++) {
@@ -65,6 +67,11 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 
 	// -- 2 --
 
+	/*
+	Ska öka kapaciteten hos ArrayList instansen vid behov.
+	Den ska se till så att listan kan hålla åtminstone så många
+	element som är specificerat hos minCapacity argumentet.
+	 */
 	public void ensureCapacity(int minCapacity) {
 		if (minCapacity > array.length){
 			Object[] temp = new Object[array.length * 2];
@@ -76,6 +83,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 		}
 	}
 
+	//Ska skala ner storleken hos arrayen så att den blir samma som antalet element i listan.
 	public void trimToSize() {
 		if (this.size < this.array.length){
 			Object[] temp = new Object[this.size];
@@ -95,18 +103,14 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	 */
 	public void add(int index, E element) {
 		indexCtrl(index, size+1);
-
-		//Kontrollerar att storleken på nuvarande array är nog stor.
 		ensureCapacity(this.size + 1);
 
-		//Loopar igenom bakifrån för att ej överskriva befintlig data.
+		//Loopar igenom bakifrån för att ej överskriva befintlig data som behöver sparas.
 		for(int i = this.size; i > index; i--){
 			array[i] = array[i-1];
 		}
 		array[index] = element;
-
 		this.size++;
-
 	}
 
 	//Lättare för här behöver man bara lägga till nytt element i slutet.
@@ -133,7 +137,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	public E set(int index, E element) {
 		indexCtrl(index, size);
 
-		E oldObj = this.array[index];
+		E oldObj = get(index);
 		array[index]= element;
 		return oldObj;
 
@@ -148,12 +152,12 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	@Override
 	public E remove(int index) {
 		indexCtrl(index, size);
-		E oldEle = this.array[index];
+		E oldEle = get(index);
 
 		for (int i = index; i < size - 1; i++) {
 			array[i] = array[i + 1];
 		}
-		//Plocka bort det sista elementet (en dublett rest)
+		//Plocka bort det sista elementet (en dubblett rest)
 		array[size -1] = null;
 		this.size--;
 		return oldEle;
@@ -210,7 +214,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 		} return false;
 	}
 
-	//Returnerar true ifall listan innehåller det specifika elementet.
+	//Ska returnera true ifall listan innehåller det specifika elementet.
 	@Override
 	public boolean contains(Object o) {
 		for (int i = 0; i < this.size; i++) {

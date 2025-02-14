@@ -21,19 +21,41 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 
     	// ---------------------------------------------------------------
 
+	/*
+	Här skapar vi får generiska array och initierar den med en standardstorlek.
+	Vi väljer att göra den av typen E[], där E är en generisk typ. Java tillåter
+	ej direkt skapande av generiska arrays. (t.ex. new E[10]), därför behöver
+	vi använda en workaround där en Object-array skapas och sedan typecastas
+	till E[].
 
+	Vi gör alltså en generisk array med startstorlek på 10 element. Den
+	Kommer att användas för att lagra objekt av typen E. När man tilldelat
+	den arrayen en annan typ (t.ex. string), så kommer den ej vara generisk
+	längre utan nu av typen string. I och med detta kan den bara ta nya
+	strängar som argument utan att skapa ett problem.
+	 */
 	public MyArrayList() {
 		array = (E[]) new Object[10];
 	}
 
-	//En metod för att kolla så man är inom index.
+	/*
+	Skapar här en metod för att kolla så man är inom index.
+	Bara för att man ska slippa ha med hela den koden flera
+	gånger om i andra metoder, det är lättare att bara kalla
+	på denna.
+	 */
 	private void indexCtrl(int index, int value){
 		if (index < 0 || index >= value){
 			throw new IndexOutOfBoundsException();
 		}
 	}
 
-	//
+	/*
+	Ska skapa en tom lista med en specificerad initialkapacitet.
+	Detta ska vara en int som heter initialCapacity.
+	Ska kasta IllegalArgumentException om värdet på
+	initicalCapacity är negativt.
+	 */
 	public MyArrayList(int initialCapacity) {
 		if (initialCapacity < 0) {
 			throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
@@ -44,25 +66,31 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 
 	// -- 1 --
 
-	//Ska returnera storleken på listan.
+	/*
+	Ska returnera en tal som visar antalet element som
+	finns i listan.
+	 */
 	@Override
 	public int size() {
-		return this.size;
+		return size;
 	}
 
-	//Ska returnera true ifall listan ej innehåller något element.
+	/*
+	Ska returnera true ifall listan ej innehåller något element.
+	 */
 	@Override
 	public boolean isEmpty() {
-		 return this.size == 0;
+		 return size == 0;
 	}
 
-	//Ska rensa alla element i listan.
+	/*
+	Ska rensa alla element i listan. Kan man kanske bara
+	skapa en ny, tom lista och sätta size = 0?
+	 */
 	@Override
 	public void clear() {
-		for (int i = 0; i < this.size(); i++) {
-			this.array[i] = null;
-			this.size = 0;
-		}
+		array = (E[]) new Object[10];
+		size = 0;
 	}
 
 	// -- 2 --
@@ -76,21 +104,26 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 		if (minCapacity > array.length){
 			Object[] temp = new Object[array.length * 2];
 
-		for(int i = 0; i < this.array.length; i++){
+		for(int i = 0; i < array.length; i++){
 			temp[i] = array[i];
 			}
-			this.array = (E[]) temp;
+			array = (E[]) temp;
 		}
 	}
 
-	//Ska skala ner storleken hos arrayen så att den blir samma som antalet element i listan.
+	/*
+	Ska skala ner kapaciteten hos arrayen så att den blir
+	samma storlek som antalet element i listan. Tanken
+	är att en applikation ska kunna använda detta för att
+	minimenra largingenskravet för en ArrayList instans.
+	 */
 	public void trimToSize() {
-		if (this.size < this.array.length){
+		if (size < array.length){
 			Object[] temp = new Object[this.size];
-			for(int i = 0; i < this.size; i++){
+			for(int i = 0; i < size; i++){
 				temp[i] = array[i];
 			}
-			this.array = (E[]) temp;
+			array = (E[]) temp;
 		}
 	}
     
@@ -99,21 +132,25 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	@Override
 	/*
 	Addera ett specifikt element på en specifik plats i listan,
-	Skifta alla nuvarande element som kommer efter i listan till höger.
+	Skifta alla eventuella element som kommer efter i listan till höger.
+	Måste hålla koll så att index ej är utanför range.
 	 */
 	public void add(int index, E element) {
 		indexCtrl(index, size+1);
 		ensureCapacity(this.size + 1);
 
 		//Loopar igenom bakifrån för att ej överskriva befintlig data som behöver sparas.
-		for(int i = this.size; i > index; i--){
+		for(int i = size; i > index; i--){
 			array[i] = array[i-1];
 		}
 		array[index] = element;
-		this.size++;
+		size++;
 	}
 
-	//Lättare för här behöver man bara lägga till nytt element i slutet.
+	/*
+	Här ska vi lägga till ett element i slutet av listan och
+	sedan returnera true för att bekräfta att det faktiskt adderats.
+	 */
 	@Override
 	public boolean add(E e) {
 		this.add(size, e);
@@ -122,25 +159,28 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 
         // -- 4 --
 
-	//Plocka fram ett element i ett specifikt index i listan.
+	/*
+	Ska returnera ett element på en specifik plats i
+	listan. Behöver även kolla så att index ej är
+	utanför range.
+	 */
 	@Override
 	public E get(int index) {
 		indexCtrl(index, size);
-		return this.array[index];
+		return array[index];
 	}
 
 	/*
 	Ska ersätta ett specifikt element i listan med något annat och
-	returnera det gamla elementet.
+	returnera det gamla elementet. Måste även kolla så att index ej
+	är utanför range.
 	*/
 	@Override
 	public E set(int index, E element) {
 		indexCtrl(index, size);
-
 		E oldObj = get(index);
 		array[index]= element;
 		return oldObj;
-
 	}
 
 	// -- 5 --
@@ -159,7 +199,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 		}
 		//Plocka bort det sista elementet (en dubblett rest)
 		array[size -1] = null;
-		this.size--;
+		size--;
 		return oldEle;
 	}
 
@@ -179,7 +219,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 
 		//Loopar igenom och tar bort element från fromIndex -> intIndex.
 		for (int i = fromIndex; i < toIndex; i++) {
-			this.remove(fromIndex);
+			remove(fromIndex);
 		}
 
 	}
@@ -206,9 +246,9 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	 */
 	@Override
 	public boolean remove(Object o) {
-		for(int i = 0; i < this.size; i++){
+		for(int i = 0; i < size; i++){
 			if (o.equals(array[i])){
-				this.remove(i);
+				remove(i);
 				return true;
 			}
 		} return false;
@@ -217,7 +257,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	//Ska returnera true ifall listan innehåller det specifika elementet.
 	@Override
 	public boolean contains(Object o) {
-		for (int i = 0; i < this.size; i++) {
+		for (int i = 0; i < size; i++) {
 			if (o.equals(array[i])){
 				return true;
 			}

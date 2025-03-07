@@ -37,20 +37,20 @@ public class MyArrayListTest {
     public static void testAvSize() {
         System.out.println("Test av size() starts");
         data = new MyArrayList<Integer>();
-        assert data.size() == 0 : "size() 1";
+        if (!(data.size() == 0 )) throw new RuntimeException("size() 1");;
         data.add(1);
         data.add(1);
         data.add(1);
-        assert data.size() != 0 : "size() 2";
+        if (!(data.size() != 0 )) throw new RuntimeException("size() 2");;
         System.out.println("Test av size() OK");
     }
 
     public static void testAvIsEmpty() {
         System.out.println("Test av isEmpty() starts");
         data = new MyArrayList<Integer>();
-        assert data.isEmpty() : "isEmpty() 1";
+        if (!(data.isEmpty() )) throw new RuntimeException("isEmpty() 1");;
         data.add(1);
-        assert !data.isEmpty() : "isEmpty() 2";
+        if (!(!data.isEmpty() )) throw new RuntimeException("isEmpty() 2");;
         System.out.println("Test av isEmpty() OK");
     }
 
@@ -58,9 +58,9 @@ public class MyArrayListTest {
         System.out.println("Test av clear() starts");
         data = new MyArrayList<Integer>();
         data.add(1);
-        assert data.size() > 0 : "clear() 1";
+        if (!(data.size() > 0 )) throw new RuntimeException("clear() 1");;
         data.clear();
-        assert data.size() == 0 : "clear() 2";
+        if (!(data.size() == 0 )) throw new RuntimeException("clear() 2");;
         System.out.println("Test av clear() OK");
     }
 
@@ -78,17 +78,17 @@ public class MyArrayListTest {
         } catch (Exception e) {
             throw new RuntimeException("add(index) 1");
         }
-        assert data.size() == 0 : "add(index) 2";
+        if (!(data.size() == 0 )) throw new RuntimeException("add(index) 2");;
         data.add(0, 10);
         data.add(1, 11);
         data.add(2, 12);
         data.add(1, 21);
         data.add(0, 20);
-        assert data.get(0) == 20 : "add(index) 3";
-        assert data.get(1) == 10 : "add(index) 4";
-        assert data.get(2) == 21 : "add(index) 5";
-        assert data.get(3) == 11 : "add(index) 6";
-        assert data.get(4) == 12 : "add(index) 7";
+        if (!(data.get(0) == 20 )) throw new RuntimeException("add(index) 3");;
+        if (!(data.get(1) == 10 )) throw new RuntimeException("add(index) 4");;
+        if (!(data.get(2) == 21 )) throw new RuntimeException("add(index) 5");;
+        if (!(data.get(3) == 11 )) throw new RuntimeException("add(index) 6");;
+        if (!(data.get(4) == 12 )) throw new RuntimeException("add(index) 7");;
         System.out.println("Test av add(index) OK");
     }
 
@@ -97,8 +97,8 @@ public class MyArrayListTest {
         data = new MyArrayList<Integer>();
         insert(4);
         data.add(100);
-        assert data.size() == 5 : "add(E) 1";
-        assert data.get(4).equals(new Integer(100)) : "add(E) 2";
+        if (!(data.size() == 5 )) throw new RuntimeException("add(E) 1");;
+        if (!(data.get(4).equals(new Integer(100)) )) throw new RuntimeException("add(E) 2");;
         System.out.println("Test av add(E) OK");
     }
 
@@ -108,7 +108,7 @@ public class MyArrayListTest {
         System.out.println("Test av get(index) startar");
         data = new MyArrayList<Integer>();
         insert(4);
-        assert data.get(2).equals(new Integer(2)) : "get(index) 1";
+        if (!(data.get(2).equals(new Integer(2)) )) throw new RuntimeException("get(index) 1");;
         System.out.println("Test av get(index) OK");
     }
 
@@ -117,8 +117,8 @@ public class MyArrayListTest {
         data = new MyArrayList<Integer>();
         insert(5);
         Integer i = data.set(3, new Integer(100));
-        assert i.equals(new Integer(3)) : "set(index) 1";
-        assert data.get(3).equals(new Integer(100)) : "set(index) 2";
+        if (!(i.equals(new Integer(3)) )) throw new RuntimeException("set(index) 1");;
+        if (!(data.get(3).equals(new Integer(100)) )) throw new RuntimeException("set(index) 2");;
         System.out.println("Test av set(int index, E element) OK");
     }
 
@@ -130,8 +130,8 @@ public class MyArrayListTest {
         insert(7);
 
         Integer i = data.remove(2);
-        assert data.size() == 6 : "remove(index) 1";
-        assert i.equals(new Integer(2)) : "remove(index) 2";
+        if (!(data.size() == 6 )) throw new RuntimeException("remove(index) 1");;
+        if (!(i.equals(new Integer(2)) )) throw new RuntimeException("remove(index) 2");;
 
         System.out.println("Test av remove(int index) OK");
     }
@@ -141,13 +141,13 @@ public class MyArrayListTest {
         data = new MyArrayList<Integer>();
         insert(6); // 0 .. 5
         data.removeRange(2, 4);
-        assert data.contains(0) : "removeRange 1";
-        assert data.contains(1) : "removeRange 2";
-        assert !data.contains(2) : "removeRange 3";
-        assert !data.contains(3) : "removeRange 4";
-        assert data.contains(4) : "removeRange 5";
-        assert data.contains(5) : "removeRange 6";
-        assert !data.contains(6) : "removeRange 7";
+        if (!(data.contains(0) )) throw new RuntimeException("removeRange 1");;
+        if (!(data.contains(1) )) throw new RuntimeException("removeRange 2");;
+        if (!(!data.contains(2) )) throw new RuntimeException("removeRange 3");;
+        if (!(!data.contains(3) )) throw new RuntimeException("removeRange 4");;
+        if (!(data.contains(4) )) throw new RuntimeException("removeRange 5");;
+        if (!(data.contains(5) )) throw new RuntimeException("removeRange 6");;
+        if (!(!data.contains(6) )) throw new RuntimeException("removeRange 7");;
 
         System.out.println("Test av removeRange() OK");
     }
@@ -158,11 +158,11 @@ public class MyArrayListTest {
         System.out.println("Test av indexOf(Object o) startar");
         data = new MyArrayList<Integer>();
         insert(5);
-        assert data.indexOf(0) == 0 : "";
-        assert data.indexOf(4) == 4 : "";
-        assert data.indexOf(2) == 2 : "";
-        assert data.indexOf(-100) == -1 : "";
-        assert data.indexOf(100) == -1 : "";
+        if (!(data.indexOf(0) == 0 )) throw new RuntimeException("");;
+        if (!(data.indexOf(4) == 4 )) throw new RuntimeException("");;
+        if (!(data.indexOf(2) == 2 )) throw new RuntimeException("");;
+        if (!(data.indexOf(-100) == -1 )) throw new RuntimeException("");;
+        if (!(data.indexOf(100) == -1 )) throw new RuntimeException("");;
         System.out.println("Test av indexOf(Object o) OK");
     }
 
@@ -170,10 +170,10 @@ public class MyArrayListTest {
         System.out.println("Test av remove(Object o) startar");
         data = new MyArrayList<Integer>();
         insert(5);
-        assert data.remove(new Integer(0)) : "remove(Object o) 1";
-        assert data.remove(new Integer(4)) : "remove(Object o) 2";
-        assert !data.remove(new Integer(-100)) : "remove(Object o) 3";
-        assert !data.remove(new Integer(100)) : "remove(Object o) 4";
+        if (!(data.remove(new Integer(0)) )) throw new RuntimeException("remove(Object o) 1");;
+        if (!(data.remove(new Integer(4)) )) throw new RuntimeException("remove(Object o) 2");;
+        if (!(!data.remove(new Integer(-100)) )) throw new RuntimeException("remove(Object o) 3");;
+        if (!(!data.remove(new Integer(100)) )) throw new RuntimeException("remove(Object o) 4");;
         System.out.println("Test av remove(Object o) OK");
     }
 
@@ -181,11 +181,11 @@ public class MyArrayListTest {
         System.out.println("Test av contains(Object o) startar");
         data = new MyArrayList<Integer>();
         insert(3);
-        assert data.contains(0) : "contains(Object o) 1";
-        assert data.contains(1) : "contains(Object o) 2";
-        assert data.contains(2) : "contains(Object o) 3";
-        assert !data.contains(-1) : "contains(Object o) 4";
-        assert !data.contains(4) : "contains(Object o) 5";
+        if (!(data.contains(0) )) throw new RuntimeException("contains(Object o) 1");;
+        if (!(data.contains(1) )) throw new RuntimeException("contains(Object o) 2");;
+        if (!(data.contains(2) )) throw new RuntimeException("contains(Object o) 3");;
+        if (!(!data.contains(-1) )) throw new RuntimeException("contains(Object o) 4");;
+        if (!(!data.contains(4) )) throw new RuntimeException("contains(Object o) 5");;
         System.out.println("Test av contains(Object o) OK");
     }
 
@@ -208,23 +208,23 @@ public class MyArrayListTest {
         int N = 3;
         insert(3);
         MyArrayList<Integer> clone = (MyArrayList<Integer>) data.clone();
-        assert clone.get(0).equals(data.get(0)) : "clone() 1";
-        assert clone.get(1).equals(data.get(1)) : "clone() 2";
-        assert clone.get(2).equals(data.get(2)) : "clone() 3";
+        if (!(clone.get(0).equals(data.get(0)) )) throw new RuntimeException("clone() 1");;
+        if (!(clone.get(1).equals(data.get(1)) )) throw new RuntimeException("clone() 2");;
+        if (!(clone.get(2).equals(data.get(2)) )) throw new RuntimeException("clone() 3");;
 
         clone.set(1, N + 1);
-        assert !data.get(1).equals(N + 1) : "clone() 4";
+        if (!(!data.get(1).equals(N + 1) )) throw new RuntimeException("clone() 4");;
         data.set(2, N + 2);
-        assert !clone.get(1).equals(N + 2) : "clone() 5";
+        if (!(!clone.get(1).equals(N + 2) )) throw new RuntimeException("clone() 5");;
 
-        assert data.size() == clone.size() : "clone() 6";
+        if (!(data.size() == clone.size() )) throw new RuntimeException("clone() 6");;
 
         MyArrayList<IntegerBox> box = new MyArrayList<IntegerBox>();
         box.add(new IntegerBox(10));
         MyArrayList<IntegerBox> box2 = (MyArrayList<IntegerBox>) box.clone();
-        assert box.get(0).equals(box2.get(0)) : "clone() 7";
+        if (!(box.get(0).equals(box2.get(0)) )) throw new RuntimeException("clone() 7");;
         box.get(0).x = 30;
-        assert box.get(0).equals(box2.get(0)) : "clone() 8";
+        if (!(box.get(0).equals(box2.get(0)) )) throw new RuntimeException("clone() 8");;
 
         System.out.println("Test av clone() OK");
     }
@@ -235,11 +235,11 @@ public class MyArrayListTest {
         int N = 4;
         insert(4);
         Object[] tmp = (Object[]) data.toArray();
-        assert tmp.length == N : "toArray() 1";
-        assert (Integer) tmp[1] == 1 : "toArray() 2";
-        assert data.get(0) == 0 : "toArray() 3";
-        assert data.get(2) == 2 : "toArray() 4";
-        assert data.get(3) == 3 : "toArray() 5";
+        if (!(tmp.length == N )) throw new RuntimeException("toArray() 1");;
+        if (!((Integer) tmp[1] == 1 )) throw new RuntimeException("toArray() 2");;
+        if (!(data.get(0) == 0 )) throw new RuntimeException("toArray() 3");;
+        if (!(data.get(2) == 2 )) throw new RuntimeException("toArray() 4");;
+        if (!(data.get(3) == 3 )) throw new RuntimeException("toArray() 5");;
         System.out.println("Test av toArray() OK");
     }
 
@@ -267,5 +267,7 @@ public class MyArrayListTest {
         testAvContainsobject();
         testAvClone();
         testAvToArray();
+        System.out.println("hej");
+        assert false;
     }
 }
